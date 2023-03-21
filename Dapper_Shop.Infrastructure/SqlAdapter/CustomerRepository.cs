@@ -19,6 +19,15 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
         {
             var connection = await _dbConnectionBuilder.CreateConnectionAsync();
 
+            // verify that shop exist
+            var shopSql = $"SELECT COUNT(*) FROM shop WHERE shop_id = @idShop;";
+            var shopCount = await connection.ExecuteScalarAsync<int>(shopSql, new { idShop = customer.Id_shop});
+
+            if (shopCount == 0)
+            {
+                throw new Exception("The shop doesn't exist");
+            }
+
             var customerToCreate = new
             {
                 fullname = customer.Fullname,
@@ -26,6 +35,9 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
                 address = customer.Address_customer,
                 idShop = customer.Id_shop,
             };
+
+            Customer.Validate(customerToCreate.fullname, customerToCreate.address, customerToCreate.phone, customerToCreate.idShop);
+
             var sql = $"INSERT INTO {_tableName} (fullname, phone_customer, address_customer, id_shop) VALUES (@fullname, @phone, @address, @idShop);";
 
             var result = await connection.ExecuteAsync(sql, customerToCreate);

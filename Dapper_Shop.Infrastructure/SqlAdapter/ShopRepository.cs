@@ -24,6 +24,9 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
                 address = shop.Address_shop,
                 rating = shop.Rating_shop
             };
+
+            Shop.Validate(shopToCreate.name, shopToCreate.address, shopToCreate.phone, shopToCreate.rating);
+
             var sql = $"INSERT INTO {_tableName} (name_shop, phone_shop, address_shop, rating_shop) VALUES (@name, @phone, @address, @rating);";
             var result = await connection.ExecuteAsync(sql, shopToCreate);
             connection.Close();

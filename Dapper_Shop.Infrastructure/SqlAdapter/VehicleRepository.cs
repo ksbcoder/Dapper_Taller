@@ -20,6 +20,15 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
         {
             var connection = await _dbConnectionBuilder.CreateConnectionAsync();
 
+            // verify that client exist
+            var customerSql = $"SELECT COUNT(*) FROM customers WHERE customer_id = @idCustomer;";
+            var customerCount = await connection.ExecuteScalarAsync<int>(customerSql, new { idCustomer = vehicle.Id_Customer });
+
+            if (customerCount == 0)
+            {
+                throw new Exception("The client doesn't exist");
+            }
+
             var vehicleToCreate = new
             {
                 brand = vehicle.Brand,
@@ -27,6 +36,9 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
                 km = vehicle.Km,
                 idCustomer = vehicle.Id_Customer
             };
+
+            Vehicle.Validate(vehicleToCreate.brand, vehicleToCreate.model, vehicleToCreate.km, vehicleToCreate.idCustomer);
+
             var sql = $"INSERT INTO {_tableName} (brand, model, km, id_customer) VALUES (@brand, @model, @km, @idCustomer);";
 
             var result = await connection.ExecuteAsync(sql, vehicleToCreate);
