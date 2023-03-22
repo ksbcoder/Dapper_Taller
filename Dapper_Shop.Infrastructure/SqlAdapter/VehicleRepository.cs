@@ -3,6 +3,7 @@ using Dapper_Shop.Domain.Entities;
 using Dapper_Shop.Domain.Entities.Wrappers;
 using Dapper_Shop.Domain.UseCases.Gateway.Repositories;
 using Dapper_Shop.Infrastructure.Gateway;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Dapper_Shop.Infrastructure.SqlAdapter
 {
@@ -60,7 +61,7 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
         {
             var connection = await _dbConnectionBuilder.CreateConnectionAsync();
 
-            var sql =   $"SELECT * FROM {_tableName} v " +
+            var sql = $"SELECT * FROM {_tableName} v " +
                         $"INNER JOIN customers c ON c.customer_id = v.id_customer " +
                         $"INNER JOIN shop s ON s.shop_id = c.id_shop " +
                         $"WHERE v.vehicle_id = @id";
@@ -73,6 +74,11 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
             },
             new { id },
             splitOn: "Id_customer, Id_shop");
+
+            if (vehicle.IsNullOrEmpty())
+            {
+                throw new Exception("The vehicle doesn't exist");
+            }
 
             connection.Close();
             return vehicle;
