@@ -8,6 +8,8 @@
         public string Phone_shop { get; set; }
         public int Rating_shop { get; set; }
 
+        public Shop() { }
+
         public static void Validate(string name, string address, string phone, int rating)
         {
             if (name.Equals(null))

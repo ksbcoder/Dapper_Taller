@@ -41,15 +41,5 @@ namespace Dapper_Shop.Infrastructure.SqlAdapter
             connection.Close();
             return shops.ToList();
         }
-
-        public async Task<Shop> GetShopById(int id)
-        {
-            var connection = await _dbConnectionBuilder.CreateConnectionAsync();
-
-            var sql = $"SELECT * FROM {_tableName} WHERE shop_id = @id";
-            var shop = await connection.QuerySingleAsync<Shop>(sql, new { id });
-            connection.Close();
-            return shop;
-        }
     }
 }

@@ -9,6 +9,8 @@
 
         public int Id_Customer { get; set; }
 
+        public Vehicle() { }
+
         public static void Validate(string brand, string model, int km, int idCustomer)
         {
             if (brand.Equals(null))
