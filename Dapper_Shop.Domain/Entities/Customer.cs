@@ -9,6 +9,8 @@
 
         public int Id_shop { get; set; }
 
+        public Customer() { }
+
         public static void Validate(string name, string address, string phone, int idShop)
         {
             if (name.Equals(null))

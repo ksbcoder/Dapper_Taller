@@ -24,11 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Customer\" />
-    <Folder Include="Infrastructure\Vehicle\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Dapper_Shop.Infrastructure\Dapper_Shop.Infrastructure.csproj" />
   </ItemGroup>
 

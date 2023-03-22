@@ -20,11 +20,5 @@ namespace Dapper_Shop.Domain.UseCases.UseCases
         {
             return await _shopRepository.GetShops();
         }
-
-        public async Task<Shop> GetShopById(int id)
-        {
-            Shop shop =  await _shopRepository.GetShopById(id);
-            return shop == null ? throw new Exception("Shop not found") : shop;
-        }
     }
 }

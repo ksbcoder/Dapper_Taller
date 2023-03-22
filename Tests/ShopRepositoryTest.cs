@@ -1,7 +1,6 @@
 ﻿using Dapper_Shop.Domain.Entities;
 using Dapper_Shop.Domain.UseCases.Gateway.Repositories;
 using Moq;
-using Tests.Infrastructure.Shop.Builders;
 
 namespace Tests
 {
@@ -19,17 +18,17 @@ namespace Tests
             //arrange
             var shopToCreate = new Shop
             {
-                Name_shop = "prueba",
-                Address_shop = "prueba",
-                Phone_shop = "prueba",
+                Name_shop = "Victorys",
+                Address_shop = "Calle 1",
+                Phone_shop = "5558899",
                 Rating_shop = 1
             };
 
             var shopCreated = new Shop
             {
-                Name_shop = "prueba",
-                Address_shop = "prueba",
-                Phone_shop = "prueba",
+                Name_shop = "Victorys",
+                Address_shop = "Calle 1",
+                Phone_shop = "5558899",
                 Rating_shop = 1
             };
 
@@ -41,19 +40,38 @@ namespace Tests
             //assert
             Assert.Equal(shopCreated, result);
         }
-        //[Fact]
-        //public async Task GetShops()
-        //{
-        //    //arrange
-        //    var shopRepository = new ShopRepository(_mockConnectionBuilder.Object);
+        [Fact]
+        public async Task GetShops()
+        {
+            //arrange
+            List<Shop> shops = new();
+            var shop1 = new Shop
+            {
+                Name_shop = "Victorys",
+                Address_shop = "Calle 1",
+                Phone_shop = "5558899",
+                Rating_shop = 1
+            };
 
-        //    //act
-        //    var result = await shopRepository.GetShops();
+            var shop2 = new Shop
+            {
+                Name_shop = "Akt Shop",
+                Address_shop = "Carrera 5",
+                Phone_shop = "2223344",
+                Rating_shop = 2
+            };
+            shops.Add(shop1);
+            shops.Add(shop2);
 
-        //    //assert
-        //    Assert.NotEmpty(result);
-        //    Assert.IsType<List<Dapper_Shop.Domain.Entities.Shop>>(result);
-        //}
+            //act
+            _mockshopRepository.Setup(x => x.GetShops()).ReturnsAsync(shops);
+
+            //act
+            var result = await _mockshopRepository.Object.GetShops();
+
+            //assert
+            Assert.Equal(shops, result);
+        }
         #endregion
     }
 }
