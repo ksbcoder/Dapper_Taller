@@ -4,22 +4,22 @@
     {
         public int Vehicle_id { get; set; }
         public string Brand { get; set; }
-        public string Model { get; set; }
+        public int Model { get; set; }
         public int Km { get; set; }
 
         public int Id_Customer { get; set; }
 
         public Vehicle() { }
 
-        public static void Validate(string brand, string model, int km, int idCustomer)
+        public static void Validate(string brand, int model, int km, int idCustomer)
         {
             if (brand.Equals(null))
             {
                 throw new ArgumentNullException("Brand cannot be null");
             }
-            if (model.Equals(null))
+            if (model.Equals(null) || model.Equals(0))
             {
-                throw new ArgumentNullException("Model name cannot be null");
+                throw new ArgumentNullException("Model name cannot be null or zero");
             }
             if (km <= 500)
             {
